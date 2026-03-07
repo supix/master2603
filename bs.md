@@ -26,7 +26,7 @@ Sempre utilizzando la console, installiamo la libreria beautiful soup.
 pip install beautifulsoup4
 ```
 
-## Creazione di un progetto Python che usi la libreria Beautiful Soup
+## Uso di Beautiful Soup
 
 Creiamo un progetto Python con un file principale, per es.: `main.py`.Ecco il codice.
 
@@ -36,6 +36,8 @@ if __name__ == "__main__":
 ```
 
 Eseguiamolo per verificare che tutto funzioni.
+
+### Importazione della libreria Beautiful Soup
 
 Importiamo la libreria Beautiful Soup nel codice.
 
@@ -48,7 +50,9 @@ if __name__ == "__main__":
 
 Ancora una volta, l'esecuzione del codice dovrebbe andare a buon fine.
 
-Importiamo nel nostro progetto il seguente contenuto HTML, all'interno del file `index.html`.
+### Importazione di un file HTML statico
+
+Importiamo nel nostro progetto il seguente contenuto HTML, e salviamolo all'interno del file `index.html` posizionato nella stessa cartella del file `main.py`.
 
 ```html
 <HTML>
@@ -78,6 +82,8 @@ support@yourcompany.com</a>.
 </HTML>
 ```
 
+### Parsing di un file HTML
+
 Ora proviamo a usare Beautiful Soup per fare il parsing del file e stamparlo a video.
 
 ```py
@@ -98,6 +104,8 @@ Per verificare come il file sia stato effettivamente processato e trasformato in
 
 Come si può notare, il file è stato processato dalla libreria e correttamente reindentato.
 
+### Estrazione di una sezione del file HTML
+
 Vediamo ora come è possibile estrarre una specifica sezione di un documento. Per esempio il frammento del documento contenuto in uno specifico _tag_, il tag `TITLE`.
 
 ```py
@@ -111,7 +119,9 @@ In questo modo la prima occorrenza del tag `TITLE` viene estratta e assegnata al
 <title>Your Title Here</title>
 ```
 
-Per ottenere il testo contenuto nel tag `TITLE` si usa questa sintassi.
+### Estrazione del contenuto interno a un tag HTML
+
+Per ottenere il solo testo contenuto all'interno del tag `TITLE` si usa questa sintassi.
 
 ```py
 tag = doc.title
@@ -123,6 +133,8 @@ ottenendo il seguente output.
 ```html
 Your Title Here
 ```
+
+### Modifica di un documento
 
 Un documento caricato può anche essere modificato. Ecco un esempio.
 
@@ -148,3 +160,100 @@ print(doc)
 
 N.B.: non viene modificato il file sul disco, ma solo la sua rappresentazione in memoria risultante dal parsing del documento da parte della libreria Beautiful Soup.
 
+### Una seconda modalità di accesso a una sezione
+
+Una seconda modalità per accedere a un tag in un documento è rappresentata dall'uso del metodo `find()`.
+
+```py
+tag = doc.find("a")
+print(tag)
+```
+
+L'output è il seguente.
+
+```html
+<a href="http://somegreatsite.com">Link Name</a>
+```
+
+Anche in questo caso, viene intercettata e restituita la _prima occorrenza_ del tag richiesto.
+
+Qualora si vogliano acquisire tutte le occorrenze di un certo tag presenti nel file, si utilizza invece il metodo `find_all()`.
+
+```py
+tags = doc.find_all("a")
+print(tags)
+```
+
+L'output è il seguente.
+
+```html
+[
+  <a href="http://somegreatsite.com">Link Name</a>,
+  <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>
+]
+```
+
+Come si vede, il metodo `find_all()` restituisce un array contenente tutte le occorrenze. E questo accade anche quando l'occorrenza individuata è unica. Pertanto, qualora si volgia nuovamente ottenere la sola prima occorrenza, lo si fa attraverso l'operatore di indicizzazione dell'array.
+
+```py
+tag = doc.find_all("a")[0]
+print(tag)
+```
+
+che restituisce di nuovo
+
+```html
+<a href="http://somegreatsite.com">Link Name</a>
+```
+
+### Acquisizione di tags innestati
+
+Con il metodo `find_all()` acquisiamo tutti i tags `<p>` contenuti nel documento.
+
+```py
+tags = doc.find_all("p")
+print(tags)
+```
+
+L'output è il seguente.
+
+```html
+[
+  <p> This is a new paragraph!
+    <p><b color="red">This is a new paragraph!</b>
+      <br/>
+      <b>
+        <i>This is a new sentence without a paragraph break, in bold italics.</i>
+      </b>
+      <hr/>
+    </p>
+  </p>, 
+  <p>
+    <b color="red">This is a new paragraph!</b>
+    <br/>
+    <b>
+      <i>This is a new sentence without a paragraph break, in bold italics.</i>
+    </b>
+    <hr/>
+  </p>
+]
+```
+
+Nell'array sono presenti due occorrenze del tag `<p>`, ciascuna contenente a sua volta HTML strutturato all'interno.
+
+Se vogliamo accedere ai tag `<b>` interni alla prima occorrenza del tag `<p>` usiamo il seguente codice.
+
+```py
+ptag = doc.find_all("p")[0]
+btags = ptag.find_all("b")
+print(btags)
+```
+
+col seguente risultato
+
+```html
+[
+  <b color="red">This is a new paragraph!</b>,
+  <b><i>This is a new sentence without a paragraph break, in bold italics.</i></b>
+]
+```
