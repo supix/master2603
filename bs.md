@@ -8,13 +8,13 @@ La documentazione ufficiale di Beautiful Soup è a questo link: https://www.crum
 
 Utilizzando la console, creiamo un ambiente virtuale Python, per es.: `bs4env`.
 
-```
+```sh
 python -m venv bs4env
 ```
 
 e attiviamolo (se siamo in Windows, col seguente comando).
 
-```
+```sh
 .\bs4env\Scripts\activate.bat
 ```
 
@@ -22,7 +22,7 @@ e attiviamolo (se siamo in Windows, col seguente comando).
 
 Sempre utilizzando la console, installiamo la libreria beautiful soup.
 
-```
+```sh
 pip install beautifulsoup4
 ```
 
@@ -60,7 +60,7 @@ Importiamo nel nostro progetto il seguente contenuto HTML, e salviamolo all'inte
 <TITLE>Your Title Here</TITLE>
 </HEAD>
 <BODY BGCOLOR="FFFFFF">
-<CENTER><IMG SRC="clouds.jpg" ALIGN="BOTTOM"> </CENTER>
+<CENTER><IMG SRC="clouds.jpg" ALIGN="BOTTOM"></CENTER>
 <HR>
 
 <a href="http://somegreatsite.com">Link Name</a>
@@ -257,3 +257,113 @@ col seguente risultato
   <b><i>This is a new sentence without a paragraph break, in bold italics.</i></b>
 ]
 ```
+
+### Accedere agli attributi di un tag
+
+Una volta acquisito un tag, è possibile visualizzare i valori dei suoi attributi. Acquisiamo il tag `img`.
+
+```py
+tag = doc.find("img")
+print(tag)
+```
+
+Otteniamo il seguente output.
+
+```html
+<img align="BOTTOM" src="clouds.jpg"/>
+```
+
+L'oggetto tag si comporta come un dizionario, le cui chiavi sono i nomi degli attributi. Pertanto è indicizzabile mediante l'operatore `[]`.
+
+```py
+print(tag["align"])
+print(tag["src"])
+```
+
+### Modificare gli attributi di un tag
+
+Anche gli attributi di un tag possono essere modificati nel modo consueto.
+
+```py
+tag = doc.find("img")
+tag["align"] = "TOP"
+tag["src"] = "newImg.jpg"
+print(tag)
+```
+
+Otteniamo il seguente output.
+
+```html
+<img align="TOP" src="newImg.jpg"/>
+```
+
+E possibile anche aggiungere nuovi tag a quelli già esistenti.
+
+```py
+tag = doc.find("img")
+tag["new-tag"] = "new-tag-value"
+print(tag)
+```
+
+che dà il seguente output
+
+```html
+<img align="BOTTOM" new-tag="new-value" src="clouds.jpg"/>
+```
+
+### Accedere a contenuti in rete
+
+Quanto eseguito su un file HTML locale può essere similmente eseguito direttamente su contenuti presenti in rete. A questo scopo è necessario installare una libreria che consente di acquisire contenuti remoti: la libreria `requests`. Digitiamo in console il seguente comando `pip`.
+
+```sh
+pip install requests
+```
+
+Importiamo la libreria nel codice Python.
+
+```py
+import requests
+```
+
+Ora possiamo scaricare un contenuto HTML direttamente dal web. Useremo il sito http://example.com.
+
+Proviamo a visualizzarlo [nel browser](http://example.com) e a visualizzarne il relativo codice HTML (tasto destro + _Visualizza sorgente pagina_)
+
+Scarichiamo con uno script la pagina dell'articolo.
+
+```py
+url = "http://example.com"
+
+result = requests.get(url)
+print(result.text)
+```
+
+Eseguendo questo codice si ottiene l'HTML che rappresenta la pagina dell'articolo.
+
+### Elaborare i contenuti in rete con Beautiful Soup
+
+Ora che abbiamo il contenuto della pagina, analizziamolo con Beautiful Soup. Modifichiamo il codice precedente come segue.
+
+```py
+url = "http://example.com"
+
+result = requests.get(url)
+doc = BeautifulSoup(result.text, "html.parser")
+print(doc.prettify())
+```
+
+L'esecuzione del codice, di nuovo, mostrerà l'HTML della pagina. Questa volta però il contenuto sarà stato elaborato e mostrato in una forma correttamente indentata.
+
+### Esercizio: estrarre il prezzo di un articolo da un sito di e-commerce
+
+Vogliamo ora scrivere del codice utile a estrarre il prezzo dell'articolo dalla pagina di dettaglio di un articolo su un sito di e-commerce.
+
+URL sito e-commerce: https://www.newegg.ca
+URL dettaglio articolo: https://www.newegg.ca/asus-tuf-gaming-tuf-rtx3080ti-o12g-gaming-geforce-rtx-3080-ti-12gb-graphics-card-triple-fans/p/N82E16814126509
+
+Attraverso le URL fornite, analizzare il sito e comprenderne a grandi linee le caratteristiche.
+
+Non esiste un unico modo di risolvere questo esercizio. Si rediga lo script che restituisce il prezzo dell'articolo nella modalità ritenuta più semplice.
+
+Alla fine dell'esercizio, verificare la propria soluzione con [questa](ex01_price_extraction.md).
+
