@@ -365,5 +365,6 @@ Attraverso le URL fornite, analizzare il sito e comprenderne a grandi linee le c
 
 Non esiste un unico modo di risolvere questo esercizio. Si rediga lo script che restituisce il prezzo dell'articolo nella modalità ritenuta più semplice.
 
-Alla fine dell'esercizio, verificare la propria soluzione con [questa](ex01_price_extraction.md).
+Alla fine dell'esercizio, confrontare la propria soluzione con [questa](ex01_price_extraction.md).
 
+[Vai alla prossima lezione](bs2.md)
