@@ -188,12 +188,16 @@ tags = doc.find_all('option')
 print(tags)
 ```
 
-E' possibile estrarre più tags in un unico comando, attraverso la seguente sintassi.
+## Estrazione di elementi in base a un insieme di tags
+
+E' possibile estrarre più elementi del contenuto HTML in un unico comando, attraverso la seguente sintassi.
 
 ```py
 tags = doc.find_all(['p', 'a'])
 print(tags)
 ```
+
+## Estrazione in base a condizioni multiple
 
 E' anche possibile cercare un tag specificando una serie di condizioni, che devono essere tutte contemporaneamente verificate, come nel seguente codice.
 
@@ -216,4 +220,21 @@ print(tags)
 ```
 
 Il valore restituito è simile al precedente. Modificando l'ultima condizione, viene invece restituito un risultato vuoto.
+
+## Accesso a un tag HTML attraverso la classe CSS
+
+E' possibile estrarre i tag che sono associati a una certa classe CSS. La sintassi è la seguente.
+
+```py
+tags = doc.find_all(class_="fname")
+print(tags)
+```
+
+L'esecuzione del codice restituisce il seguente output.
+
+```html
+[<input class="fname" name="name" placeholder="Full name" type="text"/>]
+```
+
+Si noti come si utilizza il parametro `class_` e non `class`. L'ultimo identificatore è infatti una parola chiave riservata del linguaggio Python.
 
