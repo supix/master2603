@@ -238,3 +238,75 @@ L'esecuzione del codice restituisce il seguente output.
 
 Si noti come si utilizza il parametro `class_` e non `class`. L'ultimo identificatore è infatti una parola chiave riservata del linguaggio Python.
 
+## Accesso a un contenuto mediante regular expression (regExp)
+
+Per poter introdurre espressioni regolari nel codice Python bisona includere la libreria `re`.
+
+```py
+import re
+```
+
+Avendo ora la possibilità di effettuare una ricerca attraverso una espressione regolare, il codice per individuare un prezzo, che è il numero seguente il simbolo del dollaro ($), diventa come il seguente.
+
+```py
+tags = doc.find_all(text=re.compile('\\$.*'))
+```
+
+Eseguendo questa riga di codice si ottiene il seguente output.
+
+```py
+['\n        $2345\n      ', '\n        $123\n        ']
+```
+
+I prezzi possono quindi essere isolati mediante il seguente codice.
+
+```py
+tags = doc.find_all(text=re.compile('\\$.*'))
+for tag in tags:
+  print(tag.strip())
+```
+
+ottenendo il seguente output
+
+```txt
+$2345
+$123
+```
+
+## Limitare il numero di risultati in una ricerca
+
+Per limitare il numero di risultati di una ricerca, si può usare il parametro `limit`. Immaginiamo per esempio di voler limitare la precedente ricerca a un solo risultato. Scriveremo quanto segue.
+
+```py
+tags = doc.find_all(text=re.compile('\\$.*'), limit=1)
+for tag in tags:
+  print(tag.strip())
+```
+
+ottenendo il seguente output
+
+```txt
+$2345
+```
+
+## Salvare un documento modificato
+
+Mostriamo ora come salvare un documento dopo aver apportato delle modifiche.
+
+Iniziamo con il caricare il documento e modificarlo. Proviamo a cambiare, per esempio, l'attributo placeholder di tutte le caselle di testo presenti nel form HTML.
+
+```py
+tags = doc.find_all("input", type="text")
+
+for tag in tags:
+    tag['placeholder'] = "I changed you!"
+```
+
+Il documento modificato può essere salvato con il seguente codice.
+
+```py
+with open("changed.html", "w") as file:
+    file.write(str(doc))
+```
+
+L'esecuzione di questo file produrrà la creazione di un nuovo file HTML, dal nome `changed.html`. Aprendo questo file nel browser si noterà come il placeholder è stato impostato al valore modificato.
