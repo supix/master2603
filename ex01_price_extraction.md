@@ -1,4 +1,4 @@
-# Esercizio: estrarre il prezzo di un articolo da una pagina web
+# Esercizio 1: estrarre il prezzo di un articolo da una pagina web - Soluzione
 
 Scarichiamo la pagina dell'articolo.
 

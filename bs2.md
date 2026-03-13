@@ -291,7 +291,7 @@ $2345
 
 ## Salvare un documento modificato
 
-Mostriamo ora come salvare un documento dopo aver apportato delle modifiche.
+Con Beautiful Soup è possibile salvare un documento dopo aver apportato delle modifiche.
 
 Iniziamo con il caricare il documento e modificarlo. Proviamo a cambiare, per esempio, l'attributo placeholder di tutte le caselle di testo presenti nel form HTML.
 
@@ -310,3 +310,55 @@ with open("changed.html", "w") as file:
 ```
 
 L'esecuzione di questo file produrrà la creazione di un nuovo file HTML, dal nome `changed.html`. Aprendo questo file nel browser si noterà come il placeholder è stato impostato al valore modificato.
+
+## Navigare il Document Object Model (DOM)
+
+Per mostrare la navigazione di un DOM HTML, useremo il seguente portale web: https://coinmarketcap.com
+
+Visualizziamo nel browser la home page e analizziamo velocemente la struttura del relativo HTML.
+
+Come si può notare il contenuto principale è all'interno di un tag `tbody` (contrazione di table body), che contiene un elenco di tag `tr`, ognuno rappresentativo di una riga della tabella.
+
+I codice per recuperare le righe della tabella può pertanto essere il seguente.
+
+```py
+from bs4 import BeautifulSoup
+import requests
+
+url = "https://coinmarketcap.com"
+result = requests.get(url).text
+doc = BeautifulSoup(result, "html.parser")
+
+tbody = doc.tbody
+trs = tbody.contents
+print(trs[0])
+```
+
+Un metodo alternativo di prelevare le righe della tabella consiste nell'usare il metodo `next_sibling`, come mostrato di seguito.
+
+```py
+first_tr = trs[0]
+second_tr = first_tr.next_sibling
+
+print(second_tr)
+```
+
+Come si intuisce, il `parent` di un qualsiasi tag `tr` è nuovamente il tag `tbody`.
+
+```py
+print(trs[0].parent.name)
+print(trs[1].parent.name)
+```
+
+il cui output è
+
+```html
+tbody
+tbody
+```
+
+## Esercizio: recupero delle informazioni sulle cryptovalute
+
+Recuperare tutte le coppie (crypto-currency, price) dal HTML.
+
+Fai [click qui](ex02_cryptocur_price_extraction.md) per vedere una possibile soluzione.
