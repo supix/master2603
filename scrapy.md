@@ -235,3 +235,11 @@ L'esecuzione produce il file `output.json` che contiene quanto richiesto.
 ]
 ```
 
+## Esercizio 3: estrarre tutte le citazioni e tutti gli autori dalla pagina web
+
+Si chiede di scrivere un metodo `parse()` capace di estrarre tutti i testi delle citazioni e i relativi autori dalla pagina web. Restituire il risultato nella forma di una lista di dizionari.
+
+Consultare la [documentazione di Scrapy](https://docs.scrapy.org) qualora vi sia la necessità di utilizzare funzionalità non ancora mostrate.
+
+Fai [click qui](ex03_quote_extraction.md) per verificare la tua soluzione.
+
