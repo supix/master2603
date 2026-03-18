@@ -4,6 +4,8 @@ Beautiful Soup è una libreria Python utile a estrarre dati da contenuti rappres
 
 La documentazione ufficiale di Beautiful Soup è a questo link: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
+Per mostrarne le potenzialità e le modalità d'uso, creiamo un progetto Python. Si consiglia l'uso dell'ambiente di sviluppo _VS Code_.
+
 ## Creazione di un ambiente virtuale
 
 Utilizzando la console, creiamo un ambiente virtuale Python, per es.: `bs4env`.
@@ -337,8 +339,6 @@ url = "http://example.com"
 result = requests.get(url)
 print(result.text)
 ```
-
-Eseguendo questo codice si ottiene l'HTML che rappresenta la pagina dell'articolo.
 
 ### Elaborare i contenuti in rete con Beautiful Soup
 
