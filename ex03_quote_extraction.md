@@ -8,10 +8,10 @@ def parse(self, response):
             "author": quote.css("span small.author::text").get()
         }
 
-        # extra 
-        next_page = response.css('li.next a::attr("href")').get()
-        if next_page is not None:
-            yield response.follow(next_page, self.parse)
+    # extra-bonus: navigare tra tutte le pagine
+    next_page = response.css('li.next a::attr("href")').get()
+    if next_page is not None:
+        yield response.follow(next_page, self.parse)
 ```
 
 [Torna indietro](scrapy.md)
