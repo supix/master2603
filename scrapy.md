@@ -20,7 +20,13 @@ oppure, alternativamente:
 python -m pip install Scrapy
 ```
 
-Per verificare che Scrapy è correttamente installato, digitiamo il comando `scrapy` in console.
+Spostiamoci nella cartella in cui sono stati copiati i binary del prodotto Scrapy a valle del comando di installazione. Al posto di `{venv}` sostituire il nome del virtual environment Python utilizzato.
+
+```sh
+cd ./{venv}/Scripts
+```
+
+Per verificare che Scrapy è correttamente installato, digitiamo il comando `.\scrapy` in console.
 
 Vedremo qualcosa del tipo seguente.
 
