@@ -235,6 +235,42 @@ L'esecuzione produce il file `output.json` che contiene quanto richiesto.
 ]
 ```
 
+## Filtrare i tag per classe
+
+E' possibile associare una classe a un tag, come nell'esempio seguente.
+
+```html
+<small class="author" itemprop="author">Albert Einstein</small>
+```
+
+Il questo caso, al tag `small` è associata la classe `author`.
+
+Per selezionare i tag a cui è associata questa classe, e prelevarne poi il testo contenuto (che è il nome dell'autore), la sintassi che si utilizza è la seguente.
+
+```sh
+>>> response.css("small.author::text").getall()
+```
+
+Il risultato è il seguente.
+
+```py
+['Albert Einstein', 'J.K. Rowling', 'Albert Einstein', 'Jane Austen', 'Marilyn Monroe', 'Albert Einstein', 'André Gide', 'Thomas A. Edison', 'Eleanor Roosevelt', 'Steve Martin']
+```
+
+## Filtrare i tag da estrarre in base ad attributi
+
+Vogliamo ora estrarre solo un sottoinsieme dei tag `a` e dei relativi attributi `href`. Quelli di nostro interesse sono quelli che conducono a un autore.
+
+Dall'HTML possiamo notare che i tag che conducono a un autore, tra tutti quelli esistenti, sono quelli che iniziano per `/author/`.
+
+In questo caso la sintassi da utilizzare è la seguente.
+
+```sh
+>>> response.css("a[href^='/author/']::attr(href)").getall()
+```
+
+L'uso delle parentesi quadre `[]` serve proprio a indicare un filtro sui risultati individuati dal selettore `a` e indica _tutti i selettori_ `a` _il cui attributo_ `href` _inizia per_ `/author/`.
+
 ## Esercizio 3: estrarre tutte le citazioni e tutti gli autori dalla pagina web
 
 Si chiede di scrivere un metodo `parse()` capace di estrarre tutti i testi delle citazioni e i relativi autori dalla pagina web. Restituire il risultato nella forma di una lista di dizionari.
@@ -242,4 +278,3 @@ Si chiede di scrivere un metodo `parse()` capace di estrarre tutti i testi delle
 Consultare la [documentazione di Scrapy](https://docs.scrapy.org) qualora vi sia la necessità di utilizzare funzionalità non ancora mostrate.
 
 Fai [click qui](ex03_quote_extraction.md) per verificare la tua soluzione.
-
