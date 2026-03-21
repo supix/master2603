@@ -284,3 +284,43 @@ Si chiede di scrivere un metodo `parse()` capace di estrarre tutti i testi delle
 Consultare la [documentazione di Scrapy](https://docs.scrapy.org) qualora vi sia la necessità di utilizzare funzionalità non ancora mostrate.
 
 Fai [click qui](ex03_quote_extraction.md) per verificare la tua soluzione.
+
+## Utilizzare pipeline per la modifica dei dati
+
+In fase di creazione di un nuovo progetto Scrapy con il comando `scrapy startproject [nome_progetto]` è stata creata una collezione di files e cartelle. In una di queste cartelle è stato successivamente creato uno spider, con il comando `scrapy genspider...`. Com'è possibile notare, tra i files creati ve n'è uno chiamato `pipelines.py`, che contiene il seguente codice.
+
+```py
+# Define your item pipelines here
+#
+# Don't forget to add your pipeline to the ITEM_PIPELINES setting
+# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+
+
+# useful for handling different item types with a single interface
+from itemadapter import ItemAdapter
+
+class MasterEnelPipeline:
+    def process_item(self, item, spider):
+        return item
+```
+
+Mediante questo file è possibile effettuare un post-processing degli elementi raccolti dall'attività di scraping (per es. inserimento di ogni [entry in un database](https://docs.scrapy.org/en/latest/topics/item-pipeline.html#write-items-to-mongodb)). Se, per esempio, lo scraping restituisse una lista di dizionari, sarebbe possibile aggiungere una proprietà a ogni dizionario restituito modificando come segue il metodo `process_item()`.
+
+```py
+class MasterEnelPipeline:
+    def process_item(self, item, spider):
+        item["new_key"] = "new_value"
+        return item
+```
+
+Una volta realizzata una classe pipeline, è necessario introdurla nella catena di elaborazione dei dati specificando il nome della classe all'interno del file `settings.py`, come di seguito indicato.
+
+```py
+# Configure item pipelines
+# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+    "master_enel.pipelines.MasterEnelPipeline": 300,
+}
+```
+
+A questa sezione della configurazione possono essere aggiunte tutte le classi pipeline necessarie. Il valore intero assegnato alla classe (nell'esempio: 300) determina l'ordine con cui le classi pipeline vengono collocate nella pipeline, dal valore più piccolo al valore più grande. Di solito questo valore varia tra 0 e 1000.
